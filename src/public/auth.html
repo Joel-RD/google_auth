@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Login con Google</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      height: 100vh;
+      justify-content: center;
+      align-items: center;
+      background: #f1f1f1;
+    }
+    .container {
+      text-align: center;
+      background: white;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    button {
+      background-color: #4285F4;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #3367D6;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Bienvenido</h1>
+    <p>Inicia sesión con tu cuenta de Google</p>
+    <button id="login">Login con Google</button>
+  </div>
+
+  <script>
+    document.getElementById('login').addEventListener('click', () => {
+      // Redirige al backend para iniciar el flujo de autenticación
+      window.location.href = '/auth/google';
+    });
+  </script>
+</body>
+</html>
