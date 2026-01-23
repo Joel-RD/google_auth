@@ -1,5 +1,9 @@
-import Database, {Database as DB} from 'better-sqlite3';
+import Database, { Database as DB } from 'better-sqlite3';
 import path from "path";
 
+/**
+ * Database Connection instance.
+ * @description Creates and exports a connection to the SQLite database.
+ */
 const db: DB = new Database(path.join(process.cwd(), "src", "Database", "users_auth.db"));
 export default db;

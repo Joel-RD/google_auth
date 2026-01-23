@@ -62,22 +62,38 @@ HTML5 · CSS3 · JavaScript (ES6)
 ├── package.json        # Dependencias y scripts del proyecto
 ├── tsconfig.json       # Configuración de TypeScript
 ├── src/
-│   ├── app.ts          # Configuración principal del servidor
-│   ├── config.ts       # Configuración de variables de entorno
-│   ├── run.ts          # Punto de entrada del servidor
+│   ├── app.ts          # Configuración principal del servidor de Express
+│   ├── config.ts       # Configuración de variables de entorno y constantes
+│   ├── run.ts          # Punto de entrada de la aplicación
 │   ├── auth/
-│   │   └── google.ts   # Configuración de autenticación con Google
+│   │   └── google.ts   # Estrategia de autenticación con Google Passport
+│   ├── controller/     # Controladores que manejan la lógica de las peticiones
+│   │   ├── authControllers.ts  # Controladores de autenticación
+│   │   └── usersControllers.ts # Controladores de usuarios
 │   ├── Database/
-│   │   ├── db.ts       # Configuración de la base de datos SQLite
-│   │   └── users_auth.db # Archivo de la base de datos
+│   │   ├── db.ts       # Inicialización y conexión a SQLite
+│   │   ├── squeme.sql  # Script SQL para creación de tablas
+│   │   └── users_auth.db # Archivo de base de datos (generado)
+│   ├── models/         # Definiciones de tipos e interfaces TypeScript
+│   │   └── types.ts
+│   ├── repositories/   # Capa de acceso a datos (Patrón Repository)
+│   │   ├── interfaces/ # Interfaces de los repositorios
+│   │   └── implementations/ # Implementación concreta de los repositorios
+│   ├── routers/        # Definición de las rutas de la API
+│   │   ├── authRouters.ts # Rutas de autenticación
+│   │   └── userRouters.ts # Rutas de usuarios
+│   ├── services/       # Servicios externos y lógica de negocio
+│   │   └── emails.ts   # Servicio de envío de correos
+│   ├── utils/          # Utilidades y helpers
+│   │   └── verifi_password.ts
 │   └── public/         # Archivos estáticos
-│       ├── index.html  # Página principal
-│       ├── auth.html   # Página de autenticación
+│       ├── index.html
+│       ├── auth.html
 │       ├── css/
-│       │   └── styles.css # Estilos de la aplicación
+│       │   └── styles.css
 │       ├── js/
-│       │   └── main.js # Lógica del cliente
-│       └── files/      # Archivos estáticos adicionales
+│       │   └── main.js
+│       └── files/
 └── README.md           # Documentación del proyecto
 ```
 
@@ -87,8 +103,7 @@ HTML5 · CSS3 · JavaScript (ES6)
 
 1. **Clona el repositorio**:
    ```bash
-   git clone <URL_DEL_REPOSITORIO>
-   cd google_auth
+   git clone https://github.com/Joel-RD/google_auth.git
    ```
 
 2. **Instala las dependencias**:
@@ -106,6 +121,53 @@ HTML5 · CSS3 · JavaScript (ES6)
 
 5. **Accede a la aplicación**:
    Abre tu navegador y ve a [http://localhost:9287](http://localhost:9287).
+
+---
+
+## 📜 Scripts Disponibles
+
+En el directorio del proyecto, puedes ejecutar:
+
+### `npm run dev`
+Ejecuta la aplicación en modo desarrollo.\
+Utiliza **nodemon** para reiniciar el servidor automáticamente cuando se detectan cambios.
+
+### `npm run build`
+Compila la aplicación de TypeScript a JavaScript en la carpeta `dist` y la ejecuta.\
+Ideal para verificar que el build de producción funciona correctamente.
+
+---
+
+## 🗄️ Esquema de Base de Datos
+
+El proyecto utiliza **SQLite** con las siguientes tablas:
+
+```mermaid
+erDiagram
+    USERS ||--o{ VERIFICATION_CODES : "generates"
+    USERS {
+        INTEGER id PK
+        UNIQUE id_google_account
+        TEXT accessToken
+        TEXT name
+        UNIQUE email
+        TEXT password
+    }
+    VERIFICATION_CODES {
+        INTEGER id PK
+        INTEGER id_user FK
+        UNIQUE email FK
+        UNIQUE code
+        DATETIME expiresAt
+        BOOLEAN used
+        DATETIME usedAt
+    }
+```
+
+### Triggers
+- **cleanup_old_codes_per_user**: Elimina códigos antiguos del mismo usuario antes de insertar uno nuevo.
+- **cleanup_expired_codes**: Elimina códigos expirados globalmente al insertar.
+- **cleanup_expired_codes_on_update**: Elimina códigos expirados al actualizar.
 
 ---
 
