@@ -3,7 +3,9 @@ import { appConfigMethod } from "./config.js"
 import db from "./Database/db.js"
 import session from "express-session";
 import path from "path"
+import swaggerUi from "swagger-ui-express";
 
+import { swaggerSpec } from "./config/swagger.js";
 import { SqliteUserRepository } from "./repositories/implementations/SqliteUserRepository.js";
 import { SqliteVerificationRepository } from "./repositories/implementations/SqliteVerificationRepository.js";
 import { AuthController } from "./controller/authControllers.js";
@@ -55,5 +57,10 @@ app.post("/verify_account", authController.postVerifyAccount);
 app.get("/logout", authController.logout);
 
 app.use("/", createUserRouter(userController));
+
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+app.get("/api-docs.json", (req: Request, res: Response) => {
+    res.json(swaggerSpec);
+});
 
 export default app;

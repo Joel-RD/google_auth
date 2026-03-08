@@ -1,5 +1,5 @@
 import { google, oauth2_v2 } from "googleapis"
-import { appConfigMethod } from "../config"
+import { appConfigMethod } from "../config.js"
 
 const { SECRET_CLIENT_PASSWORD, SECRET_CLIENT_ID, REDIRECT_URL_GOOGLE_AUTH } = appConfigMethod;
 

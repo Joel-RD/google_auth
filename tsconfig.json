@@ -4,7 +4,6 @@
     // File Layout
     "rootDir": "./",
     "outDir": "./dist",
-    "noEmit": true,
     // Environment Settings
     // See also https://aka.ms/tsconfig/module
     "module": "esnext",
@@ -32,7 +31,6 @@
     "esModuleInterop": true,
     "strict": false,
     "moduleResolution": "node",
-    "allowImportingTsExtensions": true,
     // "jsx": "react-jsx",
     "verbatimModuleSyntax": false,
     "isolatedModules": true,
